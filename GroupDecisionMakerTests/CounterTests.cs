@@ -12,7 +12,7 @@ namespace GroupDecisionMakerTests
             var counter = new Counter();
             var result = counter.Count(ballot);
 
-            Assert.Equal(result.Winner, "Red");
+            Assert.Equal(new[] {"Red"}, result.Winner);
         }
     }
 }

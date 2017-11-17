@@ -5,7 +5,7 @@
         public CountingResult Count(Ballot ballot)
         {
             var countingResult = new CountingResult();
-
+            countingResult.RecordBallot(ballot.GetSelection());
             return countingResult;
         }
     }
