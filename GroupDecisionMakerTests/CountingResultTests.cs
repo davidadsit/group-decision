@@ -6,48 +6,62 @@ namespace GroupDecisionMakerTests
     public class CountingResultTests
     {
         [Fact]
-        public void Winner_with_one_vote()
+        public void TopSelections_with_no_votes()
+        {
+            var countingResult = new CountingResult();
+
+            Assert.Equal(new string[] {}, countingResult.TopSelections);
+            Assert.Equal(0, countingResult.Votes("Green"));
+            Assert.Equal(0, countingResult.TotalVotes);
+        }
+
+        [Fact]
+        public void TopSelections_with_one_vote()
         {
             var countingResult = new CountingResult();
             countingResult.RecordBallot("Blue");
 
-            Assert.Equal(new[] {"Blue"}, countingResult.Winner);
+            Assert.Equal(new[] {"Blue"}, countingResult.TopSelections);
             Assert.Equal(1, countingResult.Votes("Blue"));
             Assert.Equal(0, countingResult.Votes("Green"));
+            Assert.Equal(1, countingResult.TotalVotes);
         }
 
         [Fact]
-        public void Winner_with_two_single_vote_selections()
+        public void TopSelections_with_two_single_vote_selections()
         {
             var countingResult = new CountingResult();
             countingResult.RecordBallot("Blue");
             countingResult.RecordBallot("Green");
 
-            Assert.Equal(new[] {"Blue", "Green"}, countingResult.Winner);
+            Assert.Equal(new[] {"Blue", "Green"}, countingResult.TopSelections);
             Assert.Equal(1, countingResult.Votes("Blue"));
             Assert.Equal(1, countingResult.Votes("Green"));
+            Assert.Equal(2, countingResult.TotalVotes);
         }
 
         [Fact]
-        public void Winner_with_two_votes()
+        public void TopSelections_with_two_votes()
         {
             var countingResult = new CountingResult();
             countingResult.RecordBallot("Blue");
             countingResult.RecordBallot("Blue");
 
-            Assert.Equal(new[] {"Blue"}, countingResult.Winner);
+            Assert.Equal(new[] {"Blue"}, countingResult.TopSelections);
             Assert.Equal(2, countingResult.Votes("Blue"));
+            Assert.Equal(2, countingResult.TotalVotes);
         }
 
         [Fact]
-        public void Winner_with_three_votes()
+        public void TopSelections_with_three_votes()
         {
             var countingResult = new CountingResult();
             countingResult.RecordBallot("Blue");
             countingResult.RecordBallot("Blue");
             countingResult.RecordBallot("Green");
 
-            Assert.Equal(new[] {"Blue"}, countingResult.Winner);
+            Assert.Equal(new[] {"Blue"}, countingResult.TopSelections);
+            Assert.Equal(3, countingResult.TotalVotes);
         }
     }
 }

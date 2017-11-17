@@ -11,7 +11,7 @@ namespace GroupDecisionMakerTests
             var counter = new Counter();
             var result = counter.Count(new Ballot("Red"));
 
-            Assert.Equal(new[] {"Red"}, result.Winner);
+            Assert.Equal(new[] {"Red"}, result.TopSelections);
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace GroupDecisionMakerTests
                 new Ballot("Blue")
             );
 
-            Assert.Equal(new[] {"Red"}, result.Winner);
+            Assert.Equal(new[] {"Red"}, result.TopSelections);
         }
     }
 }
