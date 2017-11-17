@@ -4,7 +4,9 @@
     {
         public CountingResult Count(Ballot ballot)
         {
-            return new CountingResult();
+            var countingResult = new CountingResult();
+
+            return countingResult;
         }
     }
 }
