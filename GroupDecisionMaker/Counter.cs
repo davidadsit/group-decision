@@ -1,11 +1,16 @@
-﻿namespace GroupDecisionMaker
+﻿using System.Collections.Generic;
+
+namespace GroupDecisionMaker
 {
     public class Counter
     {
-        public CountingResult Count(Ballot ballot)
+        public CountingResult Count(params Ballot[] ballots)
         {
             var countingResult = new CountingResult();
-            countingResult.RecordBallot(ballot.GetSelection());
+            foreach (var ballot in ballots)
+            {
+                countingResult.RecordBallot(ballot.GetSelection());
+            }
             return countingResult;
         }
     }

@@ -8,9 +8,22 @@ namespace GroupDecisionMakerTests
         [Fact]
         public void When_counting_a_single_ballot()
         {
-            var ballot = new Ballot("Red");
             var counter = new Counter();
-            var result = counter.Count(ballot);
+            var result = counter.Count(new Ballot("Red"));
+
+            Assert.Equal(new[] {"Red"}, result.Winner);
+        }
+
+        [Fact]
+        public void When_counting_several_ballots()
+        {
+            var counter = new Counter();
+            var result = counter.Count(
+                new Ballot("Red"),
+                new Ballot("Red"),
+                new Ballot("Red"),
+                new Ballot("Blue")
+            );
 
             Assert.Equal(new[] {"Red"}, result.Winner);
         }
