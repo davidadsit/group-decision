@@ -7,13 +7,13 @@ namespace GroupDecisionMaker
     {
         readonly Dictionary<string, int> selections = new Dictionary<string, int>();
 
-        public string[] TopSelections
+        public string[] TopCandidates
         {
             get
             {
                 if (selections.Count == 0)
                 {
-                    return new string[]{};
+                    return new string[] {};
                 }
                 var topSelectionCount = selections.Values.Max();
                 return selections.Keys.Where(x => selections[x] == topSelectionCount).ToArray();
@@ -21,6 +21,7 @@ namespace GroupDecisionMaker
         }
 
         public int TotalVotes => selections.Values.Sum();
+        public string[] AllCandidates => selections.Keys.ToArray();
 
         public void RecordBallot(string selection)
         {

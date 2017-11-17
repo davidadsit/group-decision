@@ -13,11 +13,11 @@ namespace GroupDecisionMaker
             {
                 var counter = new Counter();
                 var countingResult = counter.Count(allBallots.ToArray());
-                if (countingResult.TopSelections.Any() && countingResult.TopSelections.Length > 1)
+                if (countingResult.TopCandidates.Any() && countingResult.TopCandidates.Length > 1)
                 {
                     return "Tie";
                 }
-                return countingResult.TopSelections.FirstOrDefault() ?? "Inconclusive";
+                return countingResult.TopCandidates.FirstOrDefault() ?? "Inconclusive";
             }
         }
 
