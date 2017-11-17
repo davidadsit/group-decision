@@ -31,7 +31,7 @@ namespace GroupDecisionMaker.VotingSystems
             var counter = new Counter();
             var countingResult = counter.Count(ballotCollector.Ballots);
 
-            var votingReport = new VotingReport();
+            var votingReport = new VotingReport(ballotCollector.Ballots.Length);
             if (countingResult.TopCandidates.Any() && countingResult.TopCandidates.Length > 1)
             {
                 votingReport.Winner = "Tie";

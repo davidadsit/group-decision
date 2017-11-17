@@ -16,18 +16,19 @@ namespace VotingMachine
         {
             Console.WriteLine("Welcome to the Group Decision Voting Machine!");
 
-            var votingSystem = new InstantRunOff(new OnePersonOneVote());
+            var instantRunOff = new InstantRunOff(new OnePersonOneVote());
+            var plurality = new Plurality(new OnePersonOneVote());
             File.WriteAllText("election.log", $"Election Results{Environment.NewLine}{Environment.NewLine}");
             for (var i = 0; i < 100; i++)
             {
                 var ballot = RandomBallot();
                 File.AppendAllText("election.log", $"{i:00} => {ballot}{Environment.NewLine}");
-                votingSystem.RecordBallot(i.ToString(), ballot);
+                instantRunOff.RecordBallot(i.ToString(), ballot);
+                plurality.RecordBallot(i.ToString(), ballot);
             }
-            var votingReport = votingSystem.BuildReport();
-            var reportText = votingReport.GetTextReportText();
-            Console.Out.WriteLine(reportText);
-            File.AppendAllText("election.log", $"{Environment.NewLine}{reportText}");
+            File.AppendAllText("election.log", $"{Environment.NewLine}{Environment.NewLine}IRV Results{Environment.NewLine}{instantRunOff.BuildReport().GetTextReportText()}");
+            File.AppendAllText("election.log", $"{Environment.NewLine}{Environment.NewLine}Plurality Results{Environment.NewLine}{plurality.BuildReport().GetTextReportText()}");
+            Console.Out.WriteLine("Open election.log to see results");
         }
 
         static Ballot RandomBallot()

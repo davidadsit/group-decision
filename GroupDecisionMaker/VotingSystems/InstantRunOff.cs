@@ -31,18 +31,18 @@ namespace GroupDecisionMaker.VotingSystems
         public VotingReport BuildReport()
         {
             var counter = new Counter();
-            var votingReport = new VotingReport();
+            var votingReport = new VotingReport(ballotCollector.Ballots.Length);
             var exclusions = new List<string>();
 
             countingResult = counter.Count(ballotCollector.Ballots);
             var round = 1;
             while (NoMajorityExists() && CandidatesCanBeEliminated())
             {
-                votingReport.AppendLine($"Inconclusive results after round {round}");
+                votingReport.AppendLine($"  Inconclusive results after round {round}");
                 foreach (var bottomCandidate in countingResult.BottomCandidates)
                 {
                     var votes = countingResult.Votes(countingResult.BottomCandidates.First());
-                    votingReport.AppendLine($" - {bottomCandidate} had {votes} votes and will be excluded from future rounds");
+                    votingReport.AppendLine($"   - {bottomCandidate} had {votes} votes and will be excluded from future rounds");
                 }
                 exclusions.AddRange(countingResult.BottomCandidates);
                 countingResult = counter.CountWithExclusions(exclusions.ToArray(), ballotCollector.Ballots);
