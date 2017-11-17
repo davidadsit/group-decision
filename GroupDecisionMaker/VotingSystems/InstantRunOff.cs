@@ -39,8 +39,11 @@ namespace GroupDecisionMaker.VotingSystems
             while (NoMajorityExists() && CandidatesCanBeEliminated())
             {
                 votingReport.AppendLine($"Inconclusive results after round {round}");
-                votingReport.AppendLine(
-                    $" - {string.Join(", ", countingResult.BottomCandidates)} had {countingResult.Votes(countingResult.BottomCandidates.First())} votes and will be excluded from future rounds");
+                foreach (var bottomCandidate in countingResult.BottomCandidates)
+                {
+                    var votes = countingResult.Votes(countingResult.BottomCandidates.First());
+                    votingReport.AppendLine($" - {bottomCandidate} had {votes} votes and will be excluded from future rounds");
+                }
                 exclusions.AddRange(countingResult.BottomCandidates);
                 countingResult = counter.CountWithExclusions(exclusions.ToArray(), ballotCollector.Ballots);
                 round++;
