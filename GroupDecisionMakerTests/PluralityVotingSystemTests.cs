@@ -1,48 +1,55 @@
-﻿using System;
-using GroupDecisionMaker;
+﻿using GroupDecisionMaker;
 using Xunit;
 
 namespace GroupDecisionMakerTests
 {
     public class PluralityVotingSystemTests
     {
-        [Fact]
-        public void PluralityVotingSystem_two_candidate_race()
+        public class TwoCandidateTests
         {
-            var pluralityVotingSystem = new PluralityVotingSystem();
-            pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Red"), new Ballot("Blue"));
-            pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Blue"));
-            pluralityVotingSystem.RecordBallots(new Ballot("Red"), new Ballot("Red"));
+            [Fact]
+            public void PluralityVotingSystem_two_candidate_race_report()
+            {
+                var pluralityVotingSystem = new PluralityVotingSystem();
+                pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Red"), new Ballot("Blue"));
+                pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Blue"));
+                pluralityVotingSystem.RecordBallots(new Ballot("Yellow"), new Ballot("Red"));
+                pluralityVotingSystem.RecordBallots(new Ballot("Yellow"), new Ballot("Red"));
+                pluralityVotingSystem.RecordBallots(new Ballot("Green"));
 
-            Assert.Equal("Blue", pluralityVotingSystem.Winner);
+                var report = pluralityVotingSystem.BuildReport();
+                var reportText = report.GetTextReportText();
+                Assert.Equal("Blue", report.Winner);
+                Assert.Contains("Blue wins!", reportText);
+                Assert.Contains("Blue had 4 votes", reportText);
+                Assert.Contains("Red had 3 votes", reportText);
+                Assert.Contains("Yellow had 2 votes", reportText);
+                Assert.Contains("Green had 1 vote", reportText);
+            }
         }
 
-        [Fact]
-        public void PluralityVotingSystem_two_candidate_race_report()
+        public class TiedRaces
         {
-            var pluralityVotingSystem = new PluralityVotingSystem();
-            pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Red"), new Ballot("Blue"));
-            pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Blue"));
-            pluralityVotingSystem.RecordBallots(new Ballot("Yellow"), new Ballot("Red"));
-            pluralityVotingSystem.RecordBallots(new Ballot("Yellow"), new Ballot("Red"));
-            pluralityVotingSystem.RecordBallots(new Ballot("Green"));
+            [Fact]
+            public void Three_candidates()
+            {
+                var pluralityVotingSystem = new PluralityVotingSystem();
+                pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Blue"));
+                pluralityVotingSystem.RecordBallots(new Ballot("Red"), new Ballot("Red"));
+                pluralityVotingSystem.RecordBallots(new Ballot("Green"), new Ballot("Green"));
 
-            var report = pluralityVotingSystem.BuildReport();
-            Assert.Contains("Blue wins!",report);
-            Assert.Contains("Blue had 4 votes",report);
-            Assert.Contains("Red had 3 votes",report);
-            Assert.Contains("Yellow had 2 votes",report);
-            Assert.Contains("Green had 1 vote",report);
-        }
+                Assert.Equal("Tie", pluralityVotingSystem.Winner);
+            }
 
-        [Fact]
-        public void PluralityVotingSystem_tie_race()
-        {
-            var pluralityVotingSystem = new PluralityVotingSystem();
-            pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Blue"));
-            pluralityVotingSystem.RecordBallots(new Ballot("Red"), new Ballot("Red"));
+            [Fact]
+            public void Two_candidates()
+            {
+                var pluralityVotingSystem = new PluralityVotingSystem();
+                pluralityVotingSystem.RecordBallots(new Ballot("Blue"), new Ballot("Blue"));
+                pluralityVotingSystem.RecordBallots(new Ballot("Red"), new Ballot("Red"));
 
-            Assert.Equal("Tie", pluralityVotingSystem.Winner);
+                Assert.Equal("Tie", pluralityVotingSystem.Winner);
+            }
         }
 
         [Fact]
