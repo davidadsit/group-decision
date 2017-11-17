@@ -15,5 +15,10 @@ namespace GroupDecisionMaker
         {
             return selections.FirstOrDefault(x => exclusions.All(e => e != x));
         }
+
+        public override string ToString()
+        {
+            return string.Join(" -> ", selections);
+        }
     }
 }
