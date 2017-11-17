@@ -11,9 +11,9 @@ namespace GroupDecisionMaker
             this.selections = selections;
         }
 
-        public string GetSelection()
+        public string GetSelection(params string[] exclusions)
         {
-            return selections.First();
+            return selections.First(x => exclusions.All(e => e != x));
         }
     }
 }
