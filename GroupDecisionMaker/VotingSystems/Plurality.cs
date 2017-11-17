@@ -4,11 +4,11 @@ using GroupDecisionMaker.BallotCollectors;
 
 namespace GroupDecisionMaker.VotingSystems
 {
-    public class PluralityVotingSystem
+    public class Plurality : IVotingSystem
     {
         readonly IBallotCollector ballotCollector;
 
-        public PluralityVotingSystem(IBallotCollector ballotCollector)
+        public Plurality(IBallotCollector ballotCollector)
         {
             this.ballotCollector = ballotCollector;
         }
@@ -17,27 +17,33 @@ namespace GroupDecisionMaker.VotingSystems
         {
             foreach (var ballot in ballots)
             {
-                ballotCollector.RecordBallot(Guid.NewGuid().ToString("N"), ballot);
+                RecordBallot(Guid.NewGuid().ToString("N"), ballot);
             }
+        }
+
+        public void RecordBallot(string voterId, Ballot ballot)
+        {
+            ballotCollector.RecordBallot(voterId, ballot);
         }
 
         public VotingReport BuildReport()
         {
-            VotingReport votingReport;
             var counter = new Counter();
             var countingResult = counter.Count(ballotCollector.Ballots);
 
+            var votingReport = new VotingReport();
             if (countingResult.TopCandidates.Any() && countingResult.TopCandidates.Length > 1)
             {
-                votingReport = new VotingReport("Tie");
+                votingReport.Winner = "Tie";
             }
             else
             {
-                votingReport = new VotingReport(countingResult.TopCandidates.FirstOrDefault() ?? "Inconclusive");
-                foreach (var candidate in countingResult.AllCandidates)
-                {
-                    votingReport.AppendCandidate(candidate, countingResult.Votes(candidate));
-                }
+                votingReport.Winner = countingResult.TopCandidates.FirstOrDefault() ?? "Inconclusive";
+            }
+
+            foreach (var candidate in countingResult.AllCandidates)
+            {
+                votingReport.AppendCandidate(candidate, countingResult.Votes(candidate));
             }
 
             return votingReport;

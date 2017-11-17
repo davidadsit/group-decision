@@ -13,5 +13,15 @@ namespace GroupDecisionMaker
             }
             return countingResult;
         }
+
+        public CountingResult CountWithExclusions(string[] exclusions, Ballot[] ballots)
+        {
+            var countingResult = new CountingResult();
+            foreach (var ballot in ballots)
+            {
+                countingResult.RecordBallot(ballot.GetSelection(exclusions));
+            }
+            return countingResult;
+        }
     }
 }

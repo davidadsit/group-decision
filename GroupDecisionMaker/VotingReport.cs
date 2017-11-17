@@ -10,23 +10,23 @@ namespace GroupDecisionMaker
         readonly List<Tuple<string, int>> candidates = new List<Tuple<string, int>>();
         readonly StringBuilder textReport;
 
-        public VotingReport(string winner)
+        public VotingReport()
         {
-            Winner = winner;
-            textReport = new StringBuilder($"{winner} wins!{Environment.NewLine}");
+            textReport = new StringBuilder();
         }
 
-        public string Winner { get; }
+        public string Winner { get; set; }
 
         public string GetTextReportText()
         {
             var candidateReportBuilder = new StringBuilder();
+            candidateReportBuilder.AppendLine($"{candidates.Sum(x => x.Item2)} votes were recorded");
             foreach (var candidate in candidates.OrderByDescending(x => x.Item2).ThenBy(x => x.Item1))
             {
                 var vote = candidate.Item2 == 1 ? "vote" : "votes";
                 candidateReportBuilder.AppendLine($"{candidate.Item1} had {candidate.Item2} {vote}");
             }
-            return $"{textReport}{Environment.NewLine}{candidateReportBuilder}";
+            return $"{Winner} wins!{Environment.NewLine}{textReport}{Environment.NewLine}{candidateReportBuilder}";
         }
 
         public void AppendLine(string reportLine)

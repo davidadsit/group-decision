@@ -23,6 +23,19 @@ namespace GroupDecisionMaker
         public int TotalVotes => selections.Values.Sum();
         public string[] AllCandidates => selections.Keys.ToArray();
 
+        public string[] BottomCandidates
+        {
+            get
+            {
+                if (selections.Count == 0)
+                {
+                    return new string[] {};
+                }
+                var topSelectionCount = selections.Values.Min();
+                return selections.Keys.Where(x => selections[x] == topSelectionCount).ToArray();
+            }
+        }
+
         public void RecordBallot(string selection)
         {
             if (selections.ContainsKey(selection))
@@ -37,7 +50,11 @@ namespace GroupDecisionMaker
 
         public int Votes(string selection)
         {
-            return selections.ContainsKey(selection) ? selections[selection] : 0;
+            if (selections.Count > 0 && selections.ContainsKey(selection))
+            {
+                return selections[selection];
+            }
+            return 0;
         }
     }
 }
