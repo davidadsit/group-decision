@@ -38,6 +38,7 @@ namespace GroupDecisionMaker
 
         public void RecordBallot(string selection)
         {
+            if(selection == null) return;
             if (selections.ContainsKey(selection))
             {
                 selections[selection]++;

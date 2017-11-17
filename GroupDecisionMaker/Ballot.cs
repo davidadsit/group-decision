@@ -13,7 +13,7 @@ namespace GroupDecisionMaker
 
         public string GetSelection(params string[] exclusions)
         {
-            return selections.First(x => exclusions.All(e => e != x));
+            return selections.FirstOrDefault(x => exclusions.All(e => e != x));
         }
     }
 }
