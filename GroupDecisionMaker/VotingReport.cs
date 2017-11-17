@@ -30,7 +30,7 @@ namespace GroupDecisionMaker
                 var vote = candidate.Item2 == 1 ? "vote" : "votes";
                 candidateReportBuilder.AppendLine($"{candidate.Item1} had {candidate.Item2} {vote}");
             }
-            return $"{Winner} wins!{Environment.NewLine}{textReport}{Environment.NewLine}{candidateReportBuilder}";
+            return $"{Winner} wins!{Environment.NewLine}{Environment.NewLine}{textReport}{Environment.NewLine}{Environment.NewLine}{candidateReportBuilder}";
         }
 
         public void AppendLine(string reportLine)
