@@ -1,0 +1,8 @@
+packages/
+bin/
+obj/
+.vs/
+
+*.DotSettings.user
+*.suo
+*.log
