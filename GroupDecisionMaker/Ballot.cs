@@ -8,7 +8,7 @@ namespace GroupDecisionMaker
 
         public Ballot(params string[] selections)
         {
-            this.selections = selections;
+            this.selections = selections.Distinct().ToArray();
         }
 
         public string GetSelection(params string[] exclusions)
