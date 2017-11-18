@@ -10,7 +10,22 @@ namespace VotingMachine
     class Program
     {
         static readonly Random Random = new Random();
-        static readonly string[] AllCandidates = {"Red", "Blue", "Green", "Yellow", "Orange", "Purple"};
+
+        static readonly string[] AllCandidates =
+        {
+            "Tacos",
+            "Tacos",
+            "Tacos",
+            "Pizza",
+            "Pizza",
+            "Pizza",
+            "Burgers",
+            "Burgers",
+            "Lo Mein",
+            "Lo Mein",
+            "Fried Chicken",
+            "Green Curry"
+        };
 
         static void Main(string[] args)
         {
@@ -19,7 +34,7 @@ namespace VotingMachine
             var instantRunOff = new InstantRunOff(new OnePersonOneVote());
             var plurality = new Plurality(new OnePersonOneVote());
             File.WriteAllText("election.log", $"Election Results{Environment.NewLine}{Environment.NewLine}");
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 10000; i++)
             {
                 var ballot = RandomBallot();
                 File.AppendAllText("election.log", $"{i:00} => {ballot}{Environment.NewLine}");
@@ -33,7 +48,7 @@ namespace VotingMachine
 
         static Ballot RandomBallot()
         {
-            return new Ballot(AllCandidates.OrderBy(x => Guid.NewGuid()).Take(Random.Next(2, 7)).ToArray());
+            return new Ballot(AllCandidates.OrderBy(x => Guid.NewGuid()).Take(Random.Next(2, 13)).ToArray());
         }
     }
 }

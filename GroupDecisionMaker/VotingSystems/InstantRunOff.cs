@@ -53,7 +53,7 @@ namespace GroupDecisionMaker.VotingSystems
             {
                 votingReport.Winner = "Inconclusive";
             }
-            else if (!CandidatesCanBeEliminated())
+            else if (!CandidatesCanBeEliminated() && countingResult.AllCandidates.Length > 1)
             {
                 votingReport.Winner = "Tie";
             }
