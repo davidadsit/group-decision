@@ -111,7 +111,7 @@ namespace GroupDecisionMakerTests
             {
                 var reportText = report.GetTextReportText();
 
-                Assert.Contains("7 votes were recorded", reportText);
+                Assert.Contains("7 ballots were submitted", reportText);
                 Assert.Contains("Blue had 4 votes", reportText);
                 Assert.Contains("Red had 3 votes", reportText);
             }
