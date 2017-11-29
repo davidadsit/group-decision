@@ -48,7 +48,10 @@ namespace VotingMachine
 
         static Ballot RandomBallot()
         {
-            return new Ballot(AllCandidates.OrderBy(x => Guid.NewGuid()).Take(Random.Next(2, 13)).ToArray());
+            return new Ballot(AllCandidates
+                .OrderBy(x => Guid.NewGuid())
+//                .Take(Random.Next(2, 13))
+                .ToArray());
         }
     }
 }

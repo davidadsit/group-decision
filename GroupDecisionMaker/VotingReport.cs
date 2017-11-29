@@ -26,10 +26,12 @@ namespace GroupDecisionMaker
             candidateReportBuilder.AppendLine($" - {candidates.Sum(x => x.Item2)} ballots were used for the final selection");
             var exhaustedBallots = TotalBallots - candidates.Sum(x => x.Item2);
             candidateReportBuilder.AppendLine($" - {exhaustedBallots} ({exhaustedBallots * 100 / TotalBallots}%) ballots were exhausted");
+            var winnerVoteCount = candidates.Single(x => x.Item1 == Winner).Item2;
             foreach (var candidate in candidates.OrderByDescending(x => x.Item2).ThenBy(x => x.Item1))
             {
                 var vote = candidate.Item2 == 1 ? "vote" : "votes";
-                candidateReportBuilder.AppendLine($"{candidate.Item1} had {candidate.Item2} {vote}");
+                var fewer = candidate.Item1 == Winner ? "" : $" ({winnerVoteCount - candidate.Item2} fewer than {Winner})";
+                candidateReportBuilder.AppendLine($"{candidate.Item1} had {candidate.Item2} {vote} ({candidate.Item2*100/TotalBallots}%) {fewer}");
             }
             var details = textReport.Length > 0 ? $"{Environment.NewLine}{textReport}" : "";
             return $"{Winner} wins!{Environment.NewLine}" + details + $"{Environment.NewLine}{candidateReportBuilder}";
